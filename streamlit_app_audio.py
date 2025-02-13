@@ -24,12 +24,14 @@ uploaded_audio = st.file_uploader("...or upload an audio file of the patient's i
 
 audio_data = recorded_audio if recorded_audio else uploaded_audio
 
+transcribe_prompt = "The audio is a recording of a patient explaining their issue. Please use awareness of what makes sense in a clinical setting to transcribe the audio."
 @weave.op()
 def transcribe_audio(audio_data):
     # Send audio to OpenAI Whisper
     transcription = OpenAI().audio.transcriptions.create(
         model="whisper-1",
-        file=audio_data
+        file=audio_data,
+        prompt=transcribe_prompt
     )
     return transcription.text
 
