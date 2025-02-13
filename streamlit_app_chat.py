@@ -8,6 +8,7 @@ from llama_index.core import set_global_handler
 
 from query_llm import query_llm
 from query_rag_llm import create_rag_llm
+from ragas_evaluation import generate_eval_df
 llm_name = "gpt-4o-mini"
 model_temperature = 0.8
 
@@ -27,7 +28,9 @@ st.markdown(
     )
 )
 
-query_tab, rag_tab = st.tabs(["Query", "Knowledge Base Query"])
+rag_tab, query_tab, eval_tab = st.tabs(
+    ["Knowledge Base augmented", "Basic ChatGpt wrapper", "Evaluation"],
+    )
 
 with query_tab:
     st.subheader("Query")
@@ -60,3 +63,9 @@ with rag_tab:
         with st.spinner("Generating answer..."):
             response = st.session_state["rag_llm"].query(query_text)
         st.markdown(str(response))
+
+
+with eval_tab:
+    st.subheader("Test cases evaluation")
+    eval_df = generate_eval_df(query_engine=st.session_state["rag_llm"])
+    st.dataframe(eval_df)
