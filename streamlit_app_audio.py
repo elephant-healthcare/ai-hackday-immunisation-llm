@@ -9,7 +9,7 @@ load_dotenv()
 # Set OpenAI API key
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 
-st.title("🐘 I'm your Elephant AI assistant nurse 👋 🐘")
+st.title("I'm your Elephant AI assistant nurse 👋 🐘")
 
 recorded_audio = st.audio_input("Record the patient's issue")
 uploaded_audio = st.file_uploader("...or upload an audio file of the patient's issue", type=["mp3"])
