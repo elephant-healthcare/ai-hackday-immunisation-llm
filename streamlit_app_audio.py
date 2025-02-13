@@ -5,12 +5,16 @@ from openai import OpenAI
 import weave
 
 from query_llm import query_llm
+from llama_index.core import set_global_handler
 
 # Load environment variables from .env file
 load_dotenv()
 
+project = "ai_assistant_nurse_audio_app"
 # Initialize Weave
-weave.init('ai_assistant_nurse_audio_app')
+weave.init(project)
+
+set_global_handler("wandb", run_args={"project": project})
 
 # Set OpenAI API key
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
