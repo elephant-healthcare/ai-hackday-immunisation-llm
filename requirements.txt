@@ -4,3 +4,4 @@ openai==1.62.0
 llama-index==0.12.16
 llama-index-llms-mistralai==0.3.2
 llama-index-llms-openai==0.3.18
+python-dotenv==1.0.1
