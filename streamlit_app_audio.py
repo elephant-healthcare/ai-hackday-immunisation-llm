@@ -2,12 +2,15 @@ from dotenv import load_dotenv
 import os
 import streamlit as st
 from openai import OpenAI
-import json
+import weave
 
 from query_llm import query_llm
 
 # Load environment variables from .env file
 load_dotenv()
+
+# Initialize Weave
+weave.init('ai_assistant_nurse_audio_app')
 
 # Set OpenAI API key
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
@@ -20,7 +23,7 @@ uploaded_audio = st.file_uploader("...or upload an audio file of the patient's i
 audio_data = recorded_audio if recorded_audio else uploaded_audio
 
 if audio_data:
-    st.write("Audio input received:")
+    st.write("**Audio input received:**")
     st.audio(audio_data)
     
     # Assuming audio_data is a BytesIO object
@@ -37,7 +40,7 @@ if audio_data:
     st.write(transcription.text)
     
     # Define a priming prompt
-    priming_prompt = "The following transcript will be a recording of a patient explaining their issue. I want you to return a response of clinical advice for the patient, but you will be providing this information to the clinican to relay to the patient. The response should be in the form of a list of questions to ask the patient to help us determine the cause of their issue."
+    priming_prompt = "The following transcript will be a recording of a patient explaining their issue. I want you to return a response of clinical advice for the patient, but you will be providing this information to the clinician to relay to the patient. The response should be in the form of a list of questions to ask the patient to help us determine the cause of their issue."
     
     # Query the LLM with the transcribed text and priming prompt
     response = query_llm(transcription.text, priming_prompt)
