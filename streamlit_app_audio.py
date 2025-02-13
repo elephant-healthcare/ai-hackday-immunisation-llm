@@ -44,10 +44,10 @@ if audio_data:
     st.write("**Patient's issue transcript:**")
     st.write(transcription)
     
-    # Define a priming prompt
-    priming_prompt = "The following transcript will be a recording of a patient explaining their issue. I want you to return a response of clinical advice for the patient, but you will be providing this information to the clinician to relay to the patient. The response should be in the form of a list of questions to ask the patient to help us determine the cause of their issue."
+    # # Define a priming prompt
+    # priming_prompt = "The following transcript will be a recording of a patient explaining their issue. I want you to return a response of clinical advice for the patient, but you will be providing this information to the clinician to relay to the patient. The response should be in the form of a list of questions to ask the patient to help us determine the cause of their issue."
     
-    # Query the basic LLM with the transcribed text and priming prompt
+    # # Query the basic LLM with the transcribed text and priming prompt
     # response = query_llm(transcription.text, priming_prompt).text
     
     # Query the RAG LLM with the transcribed text
@@ -56,5 +56,20 @@ if audio_data:
     # Display the LLM response
     st.write("**Ella's response:**")
     st.markdown(str(response))
+    
+    # Add a text input for follow-up questions
+    follow_up_question = st.text_input("Ask a follow-up question based on Ella's response:")
+
+    if follow_up_question:
+        # Process the follow-up question with context
+        follow_up_prompt = (
+            "The input you are being given is a follow-up question to the clinical advice response you have already given as a nurse. "
+            "The initial question was: '{initial_question}'. The response was: '{response}'. "
+            "Please answer the follow-up question based on your clinical knowledge and the context provided."
+        ).format(initial_question=transcription, response=response)
+        
+        follow_up_response = query_llm(follow_up_question, follow_up_prompt)
+        st.write("**Follow-up response:**")
+        st.markdown(str(follow_up_response))
 
 
