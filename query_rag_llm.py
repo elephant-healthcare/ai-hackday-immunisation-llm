@@ -3,19 +3,34 @@ from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.llms.openai import OpenAI
 from llama_index.core import VectorStoreIndex
 from llama_index.embeddings.openai import OpenAIEmbedding
+from llama_index.core.prompts import PromptTemplate
 
-similarity_top_k = 2
+QA_PROMPT_TMPL = PromptTemplate(
+    "clinical guidelines:\n"
+    "---------------------\n"
+    "{context_str}"
+    "\n---------------------\n"
+    "You are a helpful AI nurse answering questions about immunization and MCH topics, based on the guidelines provided above."
+    "If the question is not related to immunization or MCH, answer with 'I'm sorry, I can only answer questions about immunization and MCH.'"
+    "If the answer to the question cannot be clearly inferred from the guidelines, answer with 'I'm sorry, I can't answer that question based on my current clinical knowledge.'"
+    "Question: {query_str}\n")
 
+SIMILARITY_TOP_K = 3
+RESPONSE_MODE = "compact"
 DOCS_DIR = "./docs"
 
 def create_rag_llm():
     docs = SimpleDirectoryReader(
         input_dir=DOCS_DIR,
-        required_exts=".md"
+        required_exts=".md",
         ).load_data()
 
     vector_index = VectorStoreIndex.from_documents(docs, embed_model=OpenAIEmbedding())
-    rag_llm =   vector_index.as_query_engine(similarity_top_k=similarity_top_k)
+    rag_llm = vector_index.as_query_engine(
+        similarity_top_k=SIMILARITY_TOP_K,
+        response_mode=RESPONSE_MODE,
+        text_qa_template=QA_PROMPT_TMPL,
+    )
     return rag_llm
 
 if __name__ == "__main__":
