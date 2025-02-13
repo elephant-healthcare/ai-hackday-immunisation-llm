@@ -9,10 +9,10 @@ load_dotenv()
 # Set OpenAI API key
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 
-st.title("🐘 AUDIO LLM CHATBOT INCOMING!!! 🐘")
+st.title("🐘 I'm your Elephant AI assistant nurse 👋 🐘")
 
-recorded_audio = st.audio_input("Record or upload the patient's issue")
-uploaded_audio = st.file_uploader("Or upload an audio file", type=["mp3"])
+recorded_audio = st.audio_input("Record the patient's issue")
+uploaded_audio = st.file_uploader("...or upload an audio file of the patient's issue", type=["mp3"])
 
 audio_data = recorded_audio if recorded_audio else uploaded_audio
 
