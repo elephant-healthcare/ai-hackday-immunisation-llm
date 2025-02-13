@@ -2,8 +2,6 @@ from openai import OpenAI
 import os
 from llama_index.llms.openai import OpenAI
 
-from constants import DEFAULT_TERM_STR, DEFAULT_TERMS, REFINE_TEMPLATE, TEXT_QA_TEMPLATE
-
 llm_name = "gpt-4o-mini"
 model_temperature = 0.8
 
