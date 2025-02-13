@@ -5,7 +5,6 @@ from llama_index.core import VectorStoreIndex
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core.prompts import PromptTemplate
 import weave
-import llama_index.core
 
 QA_PROMPT_TMPL = PromptTemplate(
     "clinical guidelines:\n"
@@ -21,7 +20,6 @@ SIMILARITY_TOP_K = 3
 RESPONSE_MODE = "compact"
 DOCS_DIR = "./docs"
 
-wandb_callback = llama_index.core.global_handler
 
 def create_rag_llm():
     docs = SimpleDirectoryReader(
@@ -30,7 +28,6 @@ def create_rag_llm():
         ).load_data()
 
     vector_index = VectorStoreIndex.from_documents(docs, embed_model=OpenAIEmbedding())
-    wandb_callback.persist_index(vector_index, index_name="immunisation_guidelines_vector_store")
     rag_llm = vector_index.as_query_engine(
         similarity_top_k=SIMILARITY_TOP_K,
         response_mode=RESPONSE_MODE,

@@ -3,8 +3,6 @@ import streamlit as st
 
 from llama_index.llms.openai import OpenAI
 import weave
-import llama_index.core
-from llama_index.core import set_global_handler
 
 from query_llm import query_llm
 from query_rag_llm import create_rag_llm
@@ -14,7 +12,6 @@ model_temperature = 0.8
 
 project = "ai_assistant_nurse_chat_app"
 weave.init(project)
-set_global_handler("wandb", run_args={"project": project})
 
 @st.cache_resource
 def rag_llm():
