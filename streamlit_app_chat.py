@@ -4,6 +4,7 @@ import streamlit as st
 from llama_index.llms.openai import OpenAI
 
 from constants import DEFAULT_TERM_STR, DEFAULT_TERMS, REFINE_TEMPLATE, TEXT_QA_TEMPLATE
+from query_llm import query_llm
 
 llm_name = "gpt-4o-mini"
 model_temperature = 0.8
@@ -28,6 +29,6 @@ with query_tab:
     query_text = st.text_input("Ask a question:")
     if query_text:
         with st.spinner("Generating answer..."):
-            llm = OpenAI(model=llm_name, temperature=model_temperature, api_key=os.environ["OPENAI_API_KEY"])
-            response = llm.complete(query_text)
+            response = query_llm(query_text)
         st.markdown(str(response))
+
