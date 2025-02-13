@@ -25,7 +25,7 @@ st.markdown(
     )
 )
 
-rag_tab, query_tab, eval_tab = st.tabs(
+rag_tab, query_tab = st.tabs(
     ["Knowledge Base augmented", "Basic ChatGpt wrapper"],
     )
 
@@ -60,9 +60,3 @@ with rag_tab:
         with st.spinner("Generating answer..."):
             response = st.session_state["rag_llm"].query(query_text)
         st.markdown(str(response))
-
-
-with eval_tab:
-    st.subheader("Test cases evaluation")
-    eval_df = generate_eval_df(query_engine=st.session_state["rag_llm"])
-    st.dataframe(eval_df)
