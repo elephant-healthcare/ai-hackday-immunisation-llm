@@ -3,7 +3,6 @@ import streamlit as st
 
 from llama_index.llms.openai import OpenAI
 
-from constants import DEFAULT_TERM_STR, DEFAULT_TERMS, REFINE_TEMPLATE, TEXT_QA_TEMPLATE
 from query_llm import query_llm
 from query_rag_llm import create_rag_llm
 llm_name = "gpt-4o-mini"
