@@ -23,7 +23,6 @@ DOCS_DIR = "./docs"
 
 wandb_callback = llama_index.core.global_handler
 
-@weave.op()
 def create_rag_llm():
     docs = SimpleDirectoryReader(
         input_dir=DOCS_DIR,
@@ -38,6 +37,12 @@ def create_rag_llm():
         text_qa_template=QA_PROMPT_TMPL,
     )
     return rag_llm
+
+@weave.op()
+def query_rag_llm(query_str):
+    rag_llm = create_rag_llm()
+    response = rag_llm.query(query_str)
+    return response
 
 if __name__ == "__main__":
     rag_llm = create_rag_llm()
