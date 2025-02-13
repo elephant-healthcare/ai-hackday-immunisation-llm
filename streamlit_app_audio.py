@@ -1,7 +1,13 @@
+from dotenv import load_dotenv
+import os
 import streamlit as st
-import pandas as pd
 from openai import OpenAI
-import openai
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Set OpenAI API key
+OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 
 st.title("🐘 AUDIO LLM CHATBOT INCOMING!!! 🐘")
 
@@ -18,14 +24,13 @@ if audio_data:
     audio_bytes = audio_data.getvalue()
     
     # Send audio to OpenAI Whisper
-    response = openai.Audio.transcribe(
+    transcription = OpenAI().audio.transcriptions.create(
         model="whisper-1",
-        file=audio_bytes,
-        file_type="mp3"
+        file=audio_data
     )
     
     # Display the transcribed text
     st.write("Transcribed Text:")
-    st.write(response['text'])
+    st.write(transcription.text)
 
 
