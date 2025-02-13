@@ -7,3 +7,5 @@ llama-index-llms-mistralai==0.3.2
 llama-index-llms-openai==0.3.18
 python-dotenv==1.0.1
 weave==0.51.33
+datasets==3.2.0
+ragas==0.2.13
