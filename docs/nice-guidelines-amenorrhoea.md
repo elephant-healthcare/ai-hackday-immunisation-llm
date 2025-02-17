@@ -1,7 +1,7 @@
 ## Amenorrhoea: Summary
 
 * Amenorrhoea is the absence or cessation of menstruation.   
-  * Primary amenorrhoea is defined as the failure to establish menstruation by the expected age, variably considered to be 15 or 16 years of age in girls with normal secondary sexual characteristics (such as breast development), or 13 or 14 years of age in girls with no secondary sexual characteristics.  
+  * Primary amenorrhoea is defined as the failure to establish menstruation by the expected age, variably considered to be 15 or 16 years of age in girls with normal secondary sexual characteristics (such as breast development), or 13 or 14 years of age in girls with no secondary sexual characteristics.
   * Secondary amenorrhoea is defined as the cessation of previously established menstruation for 3 cycles or for 6 or more months.  
 * There are many possible causes of amenorrhoea, including physiological states; outflow tract obstruction; genetic and congenital conditions; disorders of the ovaries, hypothalamus, or pituitary gland; and disorders of other endocrine glands.  
   * The more common causes of primary amenorrhoea include anatomical abnormalities due to genetic or congenital conditions, functional hypothalamic amenorrhoea (related to eating disorders, stress, weight loss, and excessive exercise) and polycystic ovary syndrome (PCOS).  

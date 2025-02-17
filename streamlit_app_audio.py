@@ -4,9 +4,7 @@ import streamlit as st
 from openai import OpenAI
 import weave
 
-from query_llm import query_llm
-
-from query_rag_llm import query_rag_llm
+from query_rag_llm import create_query_rag_llm_v2
 
 # Load environment variables from .env file
 load_dotenv()
@@ -16,6 +14,12 @@ weave.init(project)
 
 # Set OpenAI API key
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
+
+@st.cache_resource
+def create_query_rag_llm():
+    return create_query_rag_llm_v2()
+
+st.session_state["create_query_rag_llm"] = create_query_rag_llm()
 
 st.title("I'm your Elephant AI assistant nurse Ella 👋 🐘")
 
@@ -44,32 +48,22 @@ if audio_data:
     st.write("**Patient's issue transcript:**")
     st.write(transcription)
     
-    # # Define a priming prompt
-    # priming_prompt = "The following transcript will be a recording of a patient explaining their issue. I want you to return a response of clinical advice for the patient, but you will be providing this information to the clinician to relay to the patient. The response should be in the form of a list of questions to ask the patient to help us determine the cause of their issue."
-    
-    # # Query the basic LLM with the transcribed text and priming prompt
-    # response = query_llm(transcription.text, priming_prompt).text
-    
+    # Define a priming prompt
+    priming_prompt = "The following transcript will be a recording of a patient explaining their issue. I want you to return a response of clinical advice for the patient, but you will be providing this information to the clinician to relay to the patient. The response should be in the form of a list of questions to ask the patient to help us determine the cause of their issue."
+        
     # Query the RAG LLM with the transcribed text
-    response = query_rag_llm(transcription)
+    response = response = st.session_state["create_query_rag_llm"](transcription)
     
     # Display the LLM response
     st.write("**Ella's response:**")
     st.markdown(str(response))
-    
-    # Add a text input for follow-up questions
-    follow_up_question = st.text_input("Ask a follow-up question based on Ella's response:")
 
-    if follow_up_question:
-        # Process the follow-up question with context
-        follow_up_prompt = (
-            "The input you are being given is a follow-up question to the clinical advice response you have already given as a nurse. "
-            "The initial question was: '{initial_question}'. The response was: '{response}'. "
-            "Please answer the follow-up question based on your clinical knowledge and the context provided."
-        ).format(initial_question=transcription, response=response)
-        
-        follow_up_response = query_llm(follow_up_question, follow_up_prompt)
-        st.write("**Follow-up response:**")
-        st.markdown(str(follow_up_response))
+    # Sharing knowledge use by LLM
+    container = st.container()
+    container.status = st.status("**Ella's contextual knowledge:**")
+    for idx, node in enumerate(response.source_nodes):
+        container.status.write(f"**Document {idx} from {node.metadata['file_name']}**")
+        container.status.markdown(node.text)
+    container.status.update(state="complete")
 
 

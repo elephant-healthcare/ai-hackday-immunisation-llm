@@ -1,0 +1,71 @@
+[
+    {
+        "query": "My baby is 3 months old. Which immunisations should they have had by now?",
+        "reference": "A 3-month-old baby should have received the following vaccines by now: BCG, OPV0, OPV1, OPV2, Hep B0, Pentavalent 1, Pentavalent 2, PCV1, PCV2, Rota 1, Rota 2, IPV1",
+        "metadata": {
+            "tags": ["immunisations"],
+            "synthesizer": "manual",
+            "source": "https://docs.google.com/spreadsheets/d/1v93KPYt499ygWWihkZVutjvP0IjVkyvRzHb-5I2C-DU/edit?gid=0#gid=0&range=G2"
+        }
+    },
+    {
+        "query": "My baby is 10 months old. They were due to get the measles vaccine, but they had a fever after their vaccinations at 14 weeks of age. Will the same thing happen this time?",
+        "reference": "A fever is a common side effect, but this is a different vaccine, so it will not necessarily happen.",
+        "metadata": {
+            "tags": ["immunisations"],
+            "synthesizer": "manual",
+            "source": "https://docs.google.com/spreadsheets/d/1v93KPYt499ygWWihkZVutjvP0IjVkyvRzHb-5I2C-DU/edit?gid=0#gid=0&range=G6"
+        }
+    },
+    {
+        "query": "My child is 18 months old and I am worried about the side effects of the MMR vaccine. Is it safe?",
+        "reference": "MMR vaccine is safe and essential for preventing measles, mumps, and rubella",
+        "metadata": {
+            "tags": ["immunisations", "hesitancy"],
+            "synthesizer": "manual",
+            "source": "https://docs.google.com/spreadsheets/d/1v93KPYt499ygWWihkZVutjvP0IjVkyvRzHb-5I2C-DU/edit?gid=0#gid=0&range=I15"
+        }
+    },
+    {
+        "query":"What vaccines should my new born receive?",
+        "reference": "Your newborn should have received the following vaccines: BCG Vaccine, OPV0 (Oral Polio Vaccine) and Hep B0 (Hepatitis B Vaccine)",
+        "metadata": {
+            "source": "Nigeria Immunization Schedule", "synthesizer": "manual"
+        }
+    },
+    {
+        "query": "My baby is 2 months old, but I just realized I missed the OPV1 and Pentavalent 1 vaccines at 6 weeks. What should I do now?",
+        "reference": "At 6 weeks, a baby should receive OPV1, Pentavalent 1, PCV1, Rota 1, and IPV1. If any were missed, consult a healthcare provider for catch-up immunization.",
+        "metadata": {
+            "source": "Nigeria Immunization Schedule", "synthesizer": "manual"
+        }
+    },
+    {
+        "query": "My baby is 6 months old, and I am worried that she hasn't received the measles vaccine. Will this affect her immunity?",
+        "reference": "Measles vaccine is scheduled for 9 months and 15 months (MCV2).",
+        "metadata": {
+            "source": "Nigeria Immunization Schedule", "synthesizer": "manual"
+        }
+      },
+      {
+        "query": "My baby is 3 months old and has already received OPV1, OPV2, and OPV3. Did my baby get it too early?",
+        "reference": "OPV3 should be given at 14 weeks. If received too early, a healthcare provider should confirm whether an additional dose is needed at the appropriate time.",
+        "metadata": {
+            "source": "Nigeria Immunization Schedule", "synthesizer": "https://chatgpt.com/share/e/67b24a2e-4384-8006-85bb-f4dfa6560dfe"
+        }
+      },
+      {
+        "query": "My baby is 4 months old, and I just checked her records. It looks like we missed the IPV2 vaccine at 15 weeks. Can she still get it now?",
+        "reference": "IPV2 is due at 14 weeks. If missed, a healthcare provider should be consulted to arrange a catch-up dose as soon as possible.",
+        "metadata": {
+            "source": "Nigeria Immunization Schedule", "synthesizer": "https://chatgpt.com/share/e/67b24a2e-4384-8006-85bb-f4dfa6560dfe"
+        }
+      },
+      {
+        "query": "My baby is 12 months old, but I don’t see a record of the Vitamin A second dose. Can she still get it?",
+        "reference": "Vitamin A second dose is scheduled for 12 months. If missed, it should be given as soon as possible under healthcare provider guidance.",
+        "metadata": {
+            "source": "Nigeria Immunization Schedule", "synthesizer": "https://chatgpt.com/share/e/67b24a2e-4384-8006-85bb-f4dfa6560dfe"
+        }
+      }
+]

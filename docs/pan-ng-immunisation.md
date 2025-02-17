@@ -1,14 +1,4 @@
-[Skip to content](https://pan-ng.org/immunisation/#content "Skip to content")
-
-## Date Published
-
-- 25.08.20
-
-IMMUNISATION HOMEPAGE
-
-## Share
-
-## IMMUNIZATION   HOMEPAGE
+# IMMUNIZATION
 
 General Statement
 
@@ -16,23 +6,23 @@ PAN recommends complete vaccination of every child born in Nigeria and those imm
 
 [See the vaccine schedules here>>](http://hewsite.pan-ng.org/wp-content/uploads/2020/08/Current-Immunisation-schedule-for-Nigeria.jpg)
 
-**HISTORY OF VACCINES**
+##HISTORY OF VACCINES
 
 Smallpox was a most feared disease resulting in 20-30% mortality and the disease left survivors scarred for life. As part of efforts to control the disease, inoculation, a practice of injecting some of the pox materials into healthy individuals was practiced as early as 10th century AD. This practice met with varying success with some getting protected and others contracting the disease and dying. Following observations that milkmaids who caught the cowpox were protected against smallpox, Edward Jenner performed an experiment on James Phipps, inoculating him with cowpox material and then challenging him with smallpox. James Phipps was protected and Edward Jenner was the first to publish his works on vaccination as the practice came to be known in 1796. A hundred years later, Louis Pasteur made the first Rabies vaccine
 
-**What are vaccines and how do they work?**
+##What are vaccines and how do they work?
 
 To understand how vaccines work we must examine the immune system. Immunity is the ability of the body to recognize and tolerate what is “self” while getting rid of what is “non-self”. The body is equipped with the capacity to resist invasion by materials foreign to the body which are recognized as non-self. Following a first time exposure to foreign materials (antigens) which include microorganisms the cells of the immune system respond by developing antibodies, specific helper, and effector T lymphocytes (including cytokine-producing cells) and killer T cells which will help to get rid of the antigen. This reaction takes time and the organism would have caused disease before the immune system can eventually get rid of the organism.  A few of these immune cells develop a state of immunological memory such that when a similar organism is encountered again they respond with faster production of antibodies that bind with greater avidity and cells that kill faster thus getting rid of the organism before it can cause disease.
 
 A **Vaccine** is any preparation which when administered is able to stimulate the immune system to produce specific responses that inactivate, destroys, or suppresses a given pathogen (microorganism). Thus **vaccination** is the administration of a vaccine for the prevention of disease while **Immunization** is the process of inducing immunity artificially. The two words are used interchangeably because vaccination leads to immunization. Vaccination uses the concept of immunity by introducing materials that will induce immune response without causing disease and when an individual subsequently encounters the organism, he/she is able to mount an effective immune response to get rid of the organism without suffering the disease.
 
-**Types of immunization**
+##Types of immunization
 
 **Active immunization** is that which induces in the recipient a degree of immunity similar to that achieved from the natural infection and is able to prevent clinical disease. It involves stimulating the immune system to produce antibodies or cell-mediated immunity against an infectious agent. The immunity is produced by the individual’s immune system and is usually long-lasting.
 
 **Passive immunization** is the administration of exogenously (outside the body of the recipient) preformed antibodies. The immunity produced by this type of immunization is temporary.
 
-**Determinants of immune response**
+##Determinants of immune response
 
 Although vaccination should lead to immunization, this is not always the case. The determinants of immune response include
 
@@ -42,7 +32,7 @@ Although vaccination should lead to immunization, this is not always the case. T
 - Immunogenicity of the vaccine
 - Host factors- age, sex, nutrition, presence of preexisting antibodies, genetics, immune status, pregnancy
 
-**Herd Immunity**
+##Herd Immunity
 
 This is the resistance of a group to invasion and spread of an infectious agent due to the immunity of a large proportion of the group. To achieve this, high immunization coverage is necessary. When there is herd immunity, the unimmunized in the population are protected because the infection is unable to spread as most people are immune. However when the proportion of those immunized is low then an infection can spread readily. Often a target of 80% immunization coverage can achieve herd immunity but for highly infectious agents, herd immunity may require immunization coverage of up to 90-95%.
 
@@ -54,7 +44,7 @@ Vaccination is one of the most cost-effective interventions in public health.  
 
 At the regional level, the Americas have eliminated congenital rubella. Measles had been eliminated in many developed countries until the recent outbreaks stemming from vaccine hesitancy in their populations. Invasive _Haemophilus influenzae_ type b infections were reduced by 99% following the introduction of a vaccine against the organism in the United States of America.  Vaccines continue to prevent 2-3 million deaths yearly. Vaccines work!
 
-**Benefits of immunization**
+##Benefits of immunization
 
 - Immunization is able to prevent 2-3 million deaths globally each year.
 - Immunizations prevent disease
@@ -75,14 +65,17 @@ Vaccine Safety
 
 Vaccines are safe and effective if used correctly. However, no vaccine is completely without risk and adverse events can occasionally result after an immunization. Adverse Event Following Immunization (AEFI) is any medical occurrence which followed immunization and which does not necessarily have a causal relationship with the usage of the vaccine. These events may be any unfavourable or unintended sign, abnormal laboratory finding, symptom or disease.  Such events may present as local reactions (redness, pain or swelling at the injection site), fever, irritability, convulsions, anaphylactic shock, adenopathy and encephalopathy.
 
+## Adverse event following immunization AEFI
 **Most vaccines will cause no or minor, non-serious adverse events. Serious events are extremely rare and generally do not result in death or long-term disability. These events are often not as deadly as the complications caused by the disease the vaccine is meant to prevent**.
 
-**Categorization**: AEFI can be categorized into two broad categories based specifically on cause, seriousness and frequency:
+###Categorization
+
+AEFI can be categorized into two broad categories based specifically on cause, seriousness and frequency:
 
 1. Cause-specific categorization
 2. Vaccine reactions by seriousness and frequency
 
-**Cause – Specific Categorization: WHO has classified AEFI into five groups:**
+###Cause – Specific Categorization: WHO has classified AEFI into five groups:
 
 1. Vaccine product-related reaction – reaction to one or more of the inherent properties of the vaccine itself e.g. limb swelling following DPT (components of Pentavalent vaccine)
 2. Vaccine quality – defect reaction – due to defect in the quality of the vaccine
@@ -92,44 +85,25 @@ Vaccines are safe and effective if used correctly. However, no vaccine is comple
 1. Immunization anxiety-related reaction – due to anxiety about the immunization e.g. fainting during immunization.
 2. Coincidental event – caused by things other than vaccine product, immunization error or anxiety e.g. developing fever due to malaria shortly after immunization.
 
-**Vaccine reactions by seriousness and frequency:**
+###Vaccine reactions by seriousness and frequency:
 
 1. Non – serious AEFI – these are reactions that occur within a few hours of injection, resolve after a short period and do not pose a potential risk to the health of the recipient. Such reactions include mild fever (<38°C), pain and soreness at the injection site.
 2. Serious AEFI – these are events that cause a potential risk to the health or life of the recipient. Such events include death, persistent or significant disability, hospitalization and congenital anomalies
 
-**Intensity of AEFI**
+##Intensity of AEFI
 
 1. Mild – reactions that are easily tolerated by recipient, causing minimal discomfort and not interfering with daily activities
 2. Moderate – reactions that are sufficiently discomforting and interfere with daily activities.
 3. Severe – reactions that prevent normal daily activities e.g reaction that prevent school attendance in a young child or that causing parents to seek medical attention.
 
-Immunisation Policy and Advocacy
+## Immunisation Policy and Advocacy
+
 
 PAN’s policy on immunisation is based on scientific and epidemiologic data in partnership with Government and Non-Government organisations that promote child health and this is updated regularly. PAN is actively involved in immunisation activities in Nigeria. As the chief advocate for Nigerian children, the following is the recommended schedule by PAN and this has been successfully used in advocating for the addition of new vaccines to the national immunization schedule;
 
-|     |     |     |     |
-| --- | --- | --- | --- |
-| AGE | NAME of  VACCINE | ROUTE | DOSE |
-| AT  BIRTH | BCG<br>HBV0 (birth dose)<br>OPV0 | Intradermal<br>IM or deep SC<br>Oral | 0.05ml for infants <12months, 0.1ml for children ≥12months<br>0.5ml: if > 2 weeks skip birth dose<br>2 drops: if>2weeks skip birth dose |
-| 6 Weeks | OPV1<br>PENTA 1<br>PCV 13 1<br>Rotavirus1 | Oral<br>IM<br>IM<br>Oral | 2 drops<br>0.5ml<br>0.5ml<br>2 drops: do not give if child is ≥15 weeks (31/2months) |
-| 10 Weeks | OPV2<br>Rotavirus2 | Oral<br>Oral | 2 drops<br>2 drops: do not give if child is ≥32 weeks (8 months) |
-| 14 Weeks | OPV3<br>PENTA 2<br>PCV13 2 | Oral<br>Intramuscular<br>Intramuscular | 2 drops<br>0.5ml<br>0.5ml |
-| 6 Months | PENTA 3<br>PCV13 3<br>Vitamin A<br>(1st dose) | IM<br>IM<br>Oral | Last dose of Hep B not given earlier than 2 weeks of age and 16 weeks from the 1st dose<br>3rd dose given at a minimum of 2 months after the 2nd dose<br>100,000IU for 6 -11 months, 200,000IU for ≥12 months old |
-| 9 Months | Measles (1st dose)<br>Yellow fever | IM or deep SC<br>IM or deep SC | 0.5ml<br>0.5ml: booster every 10 years |
-| 12 – 15 months | Vitamin A<br>(2nd dose)<br>DTaP – booster<br>OPV booster | Oral<br>IM or deep SC<br>Oral | Repeat every 6 months till 5 years<br>0.5ml |
-| 18 months | Hepatitis A<br>MMRV (or MMR +Var or Measles -2+ Var) | IM<br>IM | 0.5ml: 2 doses at 6months interval<br>0.5ml |
-| 2 years | Typhoid (Vi polysaccharide) | IM | 0.5ml: Revaccinate every 4 years |
-| 5 years | OPV<br>DTaP<br>MMR |  |  |
-| 10 – 14 years | Tdap<br>Yellow fever<br>HPV (male and female)  3doses at 0, 2 and 6 months interval | IM<br>IM | Every 10 years<br>Every 10 years |
-| ≥ 15 years | 5 dose of TT | TT1 – at first contact<br>TT2 – 4 weeks after first dose (3 years protection)<br>TT3 – 6  months after 2nd dose (5 years protection)<br>TT4 – 1 year after 3rd dose (10 years protection)<br>TT5 – 1 years after 4th dose (protects all through childbearing years ) |
-| VACCINES FOR SPECIAL GROUP |
-| 12 – 15 months | Men ACYW135 (conjugated) |  | For children in the meningitis belt only. Polysaccharide is given after 2 years |
-| >1 year | Cholera vaccine (Sanchol and Morcvax) |  | During epidemics and at refugee camps. 2 doses 14 days apart and a booster 2 years later |
-| 15 years | Tetanus |  |  |
+(table deduplicated into nigeria-immunization-schedule.md)
 
-**_BCG: Bacillle Calmette Guerin, HBV: Hepatitis B Vaccine, OPV: Oral Polio Vaccine, PENTA: Pentavalent vaccine (comprising diphtheria, pertussis, tetanus, haemophilus influenzae type B, hepatitis B), PCV: pneumococcal conjugate vaccine, Men ACYW135: Quadrivalent meningococcal conjugate vaccine, MMRV: Measles, Mumps, Rubella,  Varicella, HPV: Human papilloma virus_**
-
-Components of Vaccines
+##Components of Vaccines
 
 Vaccines are made from a variety of similar ingredients, although they differ in individual constituents. They may also contain residual by-products from the production process. Knowing the precise content of each vaccine can be helpful when investigating adverse events following vaccination and for choosing alternative products for persons with allergies to certain components.
 
@@ -234,7 +208,7 @@ The vaccine safety net is a WHO-initiated programme aimed at improving the infor
 
 The VSN is established to provide understandable, evidence-based information on the safety of vaccines for internet users, regardless of their geographic location and language too long ago, some infants were denied vaccines because their parents were misinformed about the intentions behind the immunisation. PAN partners with VSN to provide safe and effective vaccines and information to the general public and medical practitioners.
 
-Challenges to the ImmunisationProgramme in Nigeria
+##Challenges to the ImmunisationProgramme in Nigeria
 
 Despite the proven benefits of immunization, Nigeria still struggles with vaccine-preventable diseases and perennially low immunization coverage. Peculiar challenges have continued to threaten the gains made in the fight against Vaccine-Preventable Diseases. Among these challenges are inadequate funding of health services, religious beliefs and misconceptions regarding vaccines and vaccine safety, and weak access to health services. These factors, singly and in combination, lead to the low immunization coverage in the country.
 
