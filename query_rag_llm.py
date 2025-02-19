@@ -50,7 +50,7 @@ class RagModel(weave.Model):
         # TODO: https://weave-docs.wandb.ai/guides/tracking/feedback/#retrieve-the-call-uuid
         intent = intent_classifier.classify_intent(query)
         if intent == intent_classifier.MALICIOUS_LABEL:
-            return Response("I'm sorry, I can't answer that question.")
+            return Response("I'm sorry, I can't answer that question. This doesn't replace a human nurse.")
  
         # Annoyingly, not finding yet the right pattern to initialize the query engine
         # once in the ctor, so relying on the memoised call here.

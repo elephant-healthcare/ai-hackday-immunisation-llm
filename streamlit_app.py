@@ -9,7 +9,7 @@ from query_rag_llm import create_query_rag_llm_v2
 # Load environment variables from .env file
 load_dotenv()
 
-project = "ai_assistant_nurse_audio_app"
+project = "ai-hackday-immunisation-nurse"
 weave.init(project)
 
 # Set OpenAI API key
@@ -29,6 +29,7 @@ uploaded_audio = st.file_uploader("...or upload an audio file of the patient's i
 audio_data = recorded_audio if recorded_audio else uploaded_audio
 
 transcribe_prompt = "The audio is a recording of a patient explaining their issue. Please use awareness of what makes sense in a clinical setting to transcribe the audio."
+
 @weave.op()
 def transcribe_audio(audio_data):
     # Send audio to OpenAI Whisper

@@ -6,7 +6,7 @@ PAN recommends complete vaccination of every child born in Nigeria and those imm
 
 [See the vaccine schedules here>>](http://hewsite.pan-ng.org/wp-content/uploads/2020/08/Current-Immunisation-schedule-for-Nigeria.jpg)
 
-##HISTORY OF VACCINES
+## HISTORY OF VACCINES
 
 Smallpox was a most feared disease resulting in 20-30% mortality and the disease left survivors scarred for life. As part of efforts to control the disease, inoculation, a practice of injecting some of the pox materials into healthy individuals was practiced as early as 10th century AD. This practice met with varying success with some getting protected and others contracting the disease and dying. Following observations that milkmaids who caught the cowpox were protected against smallpox, Edward Jenner performed an experiment on James Phipps, inoculating him with cowpox material and then challenging him with smallpox. James Phipps was protected and Edward Jenner was the first to publish his works on vaccination as the practice came to be known in 1796. A hundred years later, Louis Pasteur made the first Rabies vaccine
 
@@ -68,7 +68,7 @@ Vaccines are safe and effective if used correctly. However, no vaccine is comple
 ## Adverse event following immunization AEFI
 **Most vaccines will cause no or minor, non-serious adverse events. Serious events are extremely rare and generally do not result in death or long-term disability. These events are often not as deadly as the complications caused by the disease the vaccine is meant to prevent**.
 
-###Categorization
+### Categorization
 
 AEFI can be categorized into two broad categories based specifically on cause, seriousness and frequency:
 
@@ -103,7 +103,7 @@ PAN’s policy on immunisation is based on scientific and epidemiologic data in 
 
 (table deduplicated into nigeria-immunization-schedule.md)
 
-##Components of Vaccines
+## Components of Vaccines
 
 Vaccines are made from a variety of similar ingredients, although they differ in individual constituents. They may also contain residual by-products from the production process. Knowing the precise content of each vaccine can be helpful when investigating adverse events following vaccination and for choosing alternative products for persons with allergies to certain components.
 
@@ -139,7 +139,7 @@ Vaccine-preventable bacterial diseases include tuberculosis, meningococcal disea
 
 Vaccine-preventable viral diseases include Poliomyelitis, Hepatitis B, Hepatitis A, Measles, Yellow fever, Japanese encephalitis, Rabies, Varicella, Diarrhoea due to rotavirus, mumps, rubella, influenza, dengue,  diseases caused by human papillomavirus (cervical cancer, venereal warts)
 
-Vaccine Recomendation
+## Vaccine Recomendation
 
 Although there are many vaccine-preventable diseases, not all of them are recommended in national immunization programmes. Several factors are taken into consideration before vaccines are recommended. These include;
 
@@ -208,7 +208,7 @@ The vaccine safety net is a WHO-initiated programme aimed at improving the infor
 
 The VSN is established to provide understandable, evidence-based information on the safety of vaccines for internet users, regardless of their geographic location and language too long ago, some infants were denied vaccines because their parents were misinformed about the intentions behind the immunisation. PAN partners with VSN to provide safe and effective vaccines and information to the general public and medical practitioners.
 
-##Challenges to the ImmunisationProgramme in Nigeria
+## Challenges to the ImmunisationProgramme in Nigeria
 
 Despite the proven benefits of immunization, Nigeria still struggles with vaccine-preventable diseases and perennially low immunization coverage. Peculiar challenges have continued to threaten the gains made in the fight against Vaccine-Preventable Diseases. Among these challenges are inadequate funding of health services, religious beliefs and misconceptions regarding vaccines and vaccine safety, and weak access to health services. These factors, singly and in combination, lead to the low immunization coverage in the country.
 
@@ -222,7 +222,7 @@ Another major challenge to immunization is the operations of Boko haram terroris
 
 The current Covid-19 pandemic has not only limited access to immunization services through the lockdowns, but has revived a number of conspiracies regarding vaccine safety. This situation threatens efforts to reduce under-five mortality in Nigeria. The government should, therefore, strive to restore the confidence of the populace in vaccines, as well as provide continuing education of the masses on the proven safety and efficacy of current vaccines. In addition, there should be increased funding of health services to reduce the reliance on foreign support to maintain immunization services in the country.
 
-Contraindications and Precautions to Immunisations
+## Contraindications and Precautions to Immunisations
 
 The presence of a contraindication increases the risk of developing an adverse reaction to a vaccine recipient, in such a case the vaccine should be withheld. Contraindications are rare (and usually temporary) but misperceptions that they occur frequently lead to refusals to take vaccines and poor immunisation coverage.
 
