@@ -34,7 +34,7 @@ QA_SHORTER_PROMPT = (
     "</question>\n"
     )
 
-DOCS_DIR = "./docs"
+DOCS_DIR = "./docs/curated"
 
 class RagModel(weave.Model):
     chat_llm: str

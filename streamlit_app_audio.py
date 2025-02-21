@@ -29,6 +29,7 @@ uploaded_audio = st.file_uploader("...or upload an audio file of the patient's i
 audio_data = recorded_audio if recorded_audio else uploaded_audio
 
 transcribe_prompt = "The audio is a recording of a patient explaining their issue. Please use awareness of what makes sense in a clinical setting to transcribe the audio."
+
 @weave.op()
 def transcribe_audio(audio_data):
     # Send audio to OpenAI Whisper
@@ -38,6 +39,18 @@ def transcribe_audio(audio_data):
         prompt=transcribe_prompt
     )
     return transcription.text
+
+
+def text_to_audio(text) -> bytes:
+    client = OpenAI(base_url="https://api.kokorotts.com/v1", api_key="not-needed")
+    response = client.audio.speech.create(
+        model="kokoro",  # Not used but required for compatibility
+        voice="af_bella+af_sky",
+        input=text,
+        response_format="wav"
+    )
+    return response.read()
+
 
 if audio_data:
     st.write("**Audio input received:**")
@@ -54,9 +67,10 @@ if audio_data:
     # Query the RAG LLM with the transcribed text
     response = response = st.session_state["create_query_rag_llm"](transcription)
     
-    # Display the LLM response
+    # Display & Play the LLM response
     st.write("**Ella's response:**")
     st.markdown(str(response))
+    st.audio(text_to_audio(str(response)))
 
     # Sharing knowledge use by LLM
     container = st.container()

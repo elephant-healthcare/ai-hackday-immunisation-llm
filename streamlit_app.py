@@ -1,10 +1,17 @@
+from pathlib import Path
+import uuid
 from dotenv import load_dotenv
 import os
+
 import streamlit as st
 from openai import OpenAI
 import weave
 
-from query_rag_llm import create_query_rag_llm_v2
+from query_rag_llm import create_query_rag_llm_v2, Response, RagModel
+
+TRANSCRIPTION_MODEL = "whisper-1"
+TRANSCRIPTION_PROMPT = "The audio is a recording of a patient explaining their issue. Please use awareness of what makes sense in a clinical setting to transcribe the audio."
+CHAT_MODEL = "mistral-large-latest"
 
 # Load environment variables from .env file
 load_dotenv()
@@ -15,51 +22,63 @@ weave.init(project)
 # Set OpenAI API key
 OpenAI.api_key = os.getenv("OPENAI_API_KEY")
 
+def init_states():
+    """Set up session_state keys if they don't exist yet."""
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = []
+    if "calls" not in st.session_state:
+        st.session_state["calls"] = []
+    if "session_id" not in st.session_state:
+        st.session_state["session_id"] = str(uuid.uuid4())
+    if "rag_model" not in st.session_state:
+        st.session_state["rag_model"] = RagModel(name=CHAT_MODEL, chat_llm=CHAT_MODEL)
+
+
+def render_feedback_buttons(call_idx):
+    """Renders thumbs up/down and text feedback for the call.
+    Adapted from https://weave-docs.wandb.ai/reference/gen_notebooks/feedback_prod/
+    """
+
+    col1, col2, col3 = st.columns([1, 1, 4])
+
+    print("render_feedback_buttons", len(st.session_state.calls), call_idx)
+
+    with col1:
+        if st.button("👍", key=f"thumbs_up_{call_idx}"):
+            st.session_state.calls[call_idx].feedback.add_reaction("👍")
+
+    with col2:
+        if st.button("👎", key=f"thumbs_down_{call_idx}"):
+            st.session_state.calls[call_idx].feedback.add_reaction("👎")
+
+
 @st.cache_resource
 def create_query_rag_llm():
     return create_query_rag_llm_v2()
-
-st.session_state["create_query_rag_llm"] = create_query_rag_llm()
-
-st.title("I'm your Elephant AI assistant nurse Ella 👋 🐘")
-
-recorded_audio = st.audio_input("Record the patient's issue")
-uploaded_audio = st.file_uploader("...or upload an audio file of the patient's issue", type=["mp3"])
-
-audio_data = recorded_audio if recorded_audio else uploaded_audio
-
-transcribe_prompt = "The audio is a recording of a patient explaining their issue. Please use awareness of what makes sense in a clinical setting to transcribe the audio."
 
 @weave.op()
 def transcribe_audio(audio_data):
     # Send audio to OpenAI Whisper
     transcription = OpenAI().audio.transcriptions.create(
-        model="whisper-1",
+        model=TRANSCRIPTION_MODEL,
         file=audio_data,
-        prompt=transcribe_prompt
+        prompt=TRANSCRIPTION_PROMPT
     )
     return transcription.text
 
-if audio_data:
-    st.write("**Audio input received:**")
+
+def display_and_transcribe_audio(audio_data) -> str:
+    st.write("**Audio input received:**", )
     st.audio(audio_data)
     
     transcription = transcribe_audio(audio_data)
     # Display the transcribed text
     st.write("**Patient's issue transcript:**")
     st.write(transcription)
-    
-    # Define a priming prompt
-    priming_prompt = "The following transcript will be a recording of a patient explaining their issue. I want you to return a response of clinical advice for the patient, but you will be providing this information to the clinician to relay to the patient. The response should be in the form of a list of questions to ask the patient to help us determine the cause of their issue."
-        
-    # Query the RAG LLM with the transcribed text
-    response = response = st.session_state["create_query_rag_llm"](transcription)
-    
-    # Display the LLM response
-    st.write("**Ella's response:**")
-    st.markdown(str(response))
 
-    # Sharing knowledge use by LLM
+    return transcription
+
+def display_contextual_knowledge(response: Response):
     container = st.container()
     container.status = st.status("**Ella's contextual knowledge:**")
     for idx, node in enumerate(response.source_nodes):
@@ -67,4 +86,84 @@ if audio_data:
         container.status.markdown(node.text)
     container.status.update(state="complete")
 
+def display_assistant_message(display_user_message=False):
+    """Displays the conversation stored in st.session_state.messages with feedback buttons"""
 
+    if len(st.session_state.messages) > 0:
+        user_message, assistant_message = st.session_state.messages[-2:]
+
+        if display_user_message:
+            with st.chat_message("human"):
+                st.markdown(user_message["content"])
+
+        with st.chat_message("ai", avatar=logo):
+            st.markdown(assistant_message["content"])
+        render_feedback_buttons(len(st.session_state.calls) - 1)
+
+
+def query_assistant(user_input: str) -> Response:
+
+    # Attach Weave attributes for tracking of conversation instances
+    with weave.attributes(
+        {"session": st.session_state["session_id"], "env": "prod"}
+    ):
+        rag_model = st.session_state["rag_model"]
+
+        # Calling the LLM through the weave decorated function to retrieve the weave call object
+        # self has to be passed as first argument as we are calling a decorated function
+        # https://weave-docs.wandb.ai/reference/gen_notebooks/feedback_prod/
+        response, call = rag_model.predict.call(rag_model, query=user_input)
+
+        # Store the weave call object to link feedback to the specific response
+        st.session_state.calls.append(call)
+
+        # Store the assistant message
+        st.session_state.messages.append(
+            {"role": "assistant", "content": response.response}
+        )
+        return response
+
+
+if __name__ == "__main__":
+
+    logo = Path("elephant.png")
+    init_states()
+    st.session_state["create_query_rag_llm"] = create_query_rag_llm()
+
+    st.title("I'm your AI nurse Ella 👋 🐘")
+
+    audio_tab, text_tab = st.tabs(
+        ["Audio", "Text"],
+        )
+
+    with audio_tab:
+
+        recorded_audio = st.audio_input("Record the patient's issue")
+        uploaded_audio = st.file_uploader("...or upload an audio file of the patient's issue", type=["mp3"])
+        audio_data = recorded_audio if recorded_audio else uploaded_audio
+
+        if audio_data:
+            transcription = display_and_transcribe_audio(audio_data)
+        
+            # Query the RAG LLM with the transcribed text
+            response = response = st.session_state["create_query_rag_llm"](transcription)
+            
+            # Display the LLM response
+            st.write("**Ella's response:**")
+            st.markdown(str(response))
+
+            display_contextual_knowledge(response)
+
+    with text_tab:
+        if user_input := st.chat_input("Ask a question:"):
+            # Immediately render new user message
+            with st.chat_message("user"):
+                st.markdown(user_input)
+            # And also save message in session (for so that it shows in the chat history on rerenders)
+            st.session_state.messages.append({"role": "user", "content": user_input})
+
+            response = query_assistant(user_input)
+            display_contextual_knowledge(response)
+            
+        # empty to start with, then show assistant message, then show both messages on rerender
+        display_assistant_message(display_user_message=user_input is None)
