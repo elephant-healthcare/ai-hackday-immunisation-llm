@@ -66,6 +66,20 @@ def transcribe_audio(audio_data):
     )
     return transcription.text
 
+# https://github.com/remsky/Kokoro-FastAPI/blob/b00c9ec28df0fd551ae25108a986e04d29a54f2e/api/src/core/openai_mappings.json#L4
+KOKORO_VOICE = "af_v0nicole" # af_sarah
+KOKORO_VOICE = "bf_v0emma+ff_siwis"
+
+def text_to_audio(text) -> bytes:
+    # Free for now!
+    client = OpenAI(base_url="https://api.kokorotts.com/v1", api_key="not-needed")
+    response = client.audio.speech.create(
+        model="kokoro",  # Not used but required for compatibility
+        voice=KOKORO_VOICE,
+        input=text,
+        response_format="wav"
+    )
+    return response.read()
 
 def display_and_transcribe_audio(audio_data) -> str:
     st.write("**Audio input received:**", )
@@ -164,6 +178,10 @@ if __name__ == "__main__":
 
             response = query_assistant(user_input)
             display_contextual_knowledge(response)
+
+            # Play audio last as ~5-10s delay
+            st.audio(text_to_audio(str(response)), autoplay=True)
+
             
         # empty to start with, then show assistant message, then show both messages on rerender
         display_assistant_message(display_user_message=user_input is None)
