@@ -51,6 +51,7 @@ def text_to_audio(text) -> bytes:
     )
     return response.read()
 
+st.audio(text_to_audio("Hello world!"), autoplay=True)
 
 if audio_data:
     st.write("**Audio input received:**")
@@ -70,7 +71,7 @@ if audio_data:
     # Display & Play the LLM response
     st.write("**Ella's response:**")
     st.markdown(str(response))
-    st.audio(text_to_audio(str(response)))
+    st.audio(text_to_audio(str(response)), autoplay=True)
 
     # Sharing knowledge use by LLM
     container = st.container()

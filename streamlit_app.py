@@ -7,7 +7,7 @@ import streamlit as st
 from openai import OpenAI
 import weave
 
-from query_rag_llm import create_query_rag_llm_v2, Response, RagModel
+from query_rag_llm import Response, RagModel
 
 TRANSCRIPTION_MODEL = "whisper-1"
 TRANSCRIPTION_PROMPT = "The audio is a recording of a patient explaining their issue. Please use awareness of what makes sense in a clinical setting to transcribe the audio."
@@ -52,10 +52,6 @@ def render_feedback_buttons(call_idx):
             st.session_state.calls[call_idx].feedback.add_reaction("👎")
 
 
-@st.cache_resource
-def create_query_rag_llm():
-    return create_query_rag_llm_v2()
-
 @weave.op()
 def transcribe_audio(audio_data):
     # Send audio to OpenAI Whisper
@@ -77,7 +73,7 @@ def text_to_audio(text) -> bytes:
         model="kokoro",  # Not used but required for compatibility
         voice=KOKORO_VOICE,
         input=text,
-        response_format="wav"
+        response_format="mp3"
     )
     return response.read()
 
@@ -87,14 +83,14 @@ def display_and_transcribe_audio(audio_data) -> str:
     
     transcription = transcribe_audio(audio_data)
     # Display the transcribed text
-    st.write("**Patient's issue transcript:**")
-    st.write(transcription)
+    with st.chat_message("human", avatar=patient):
+        st.write(transcription)
 
     return transcription
 
 def display_contextual_knowledge(response: Response):
     container = st.container()
-    container.status = st.status("**Ella's contextual knowledge:**")
+    container.status = st.status("**Ella's contextual knowledge**")
     for idx, node in enumerate(response.source_nodes):
         container.status.write(f"**Document {idx} from {node.metadata['file_name']}**")
         container.status.markdown(node.text)
@@ -107,11 +103,13 @@ def display_assistant_message(display_user_message=False):
         user_message, assistant_message = st.session_state.messages[-2:]
 
         if display_user_message:
-            with st.chat_message("human"):
+            with st.chat_message("human", avatar=patient):
                 st.markdown(user_message["content"])
 
         with st.chat_message("ai", avatar=logo):
+            st.write("**Ella's response**")
             st.markdown(assistant_message["content"])
+
         render_feedback_buttons(len(st.session_state.calls) - 1)
 
 
@@ -141,8 +139,8 @@ def query_assistant(user_input: str) -> Response:
 if __name__ == "__main__":
 
     logo = Path("elephant.png")
+    patient = Path("patient_accurx.png")
     init_states()
-    st.session_state["create_query_rag_llm"] = create_query_rag_llm()
 
     st.title("I'm your AI nurse Ella 👋 🐘")
 
@@ -160,28 +158,30 @@ if __name__ == "__main__":
             transcription = display_and_transcribe_audio(audio_data)
         
             # Query the RAG LLM with the transcribed text
-            response = response = st.session_state["create_query_rag_llm"](transcription)
+            response = st.session_state["rag_model"].predict(transcription)
             
-            # Display the LLM response
-            st.write("**Ella's response:**")
-            st.markdown(str(response))
+            # Display the LLM context and then the response
+            with st.chat_message("ai", avatar=logo):
+                display_contextual_knowledge(response)
 
-            display_contextual_knowledge(response)
+            with st.chat_message("ai", avatar=logo):
+                st.markdown(str(response))
+
+            # Play audio last as ~5-10s delay
+            st.audio(text_to_audio(str(response)), autoplay=True)
 
     with text_tab:
         if user_input := st.chat_input("Ask a question:"):
             # Immediately render new user message
-            with st.chat_message("user"):
+            with st.chat_message("human", avatar=patient):
                 st.markdown(user_input)
             # And also save message in session (for so that it shows in the chat history on rerenders)
             st.session_state.messages.append({"role": "user", "content": user_input})
 
             response = query_assistant(user_input)
-            display_contextual_knowledge(response)
 
-            # Play audio last as ~5-10s delay
-            st.audio(text_to_audio(str(response)), autoplay=True)
-
-            
+            with st.chat_message("ai", avatar=logo):
+                display_contextual_knowledge(response)
+     
         # empty to start with, then show assistant message, then show both messages on rerender
         display_assistant_message(display_user_message=user_input is None)
