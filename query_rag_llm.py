@@ -60,14 +60,15 @@ QA_STRUCTURED_PROMPT = (
 """Format the output with the following fields:
  - relevant_contexts: verbatim extract from the guidelines relevant to answer the question 
  - context_sufficiency: a score ranging from 0 to 5 grading how complete is the provided context to answer the question, where 0 would be a question completly off topic from the context, 2 a question partially covered but missing crucial information to adress key parts of the question, 4 a question almost entirely covered except for secondary details and 5 a question fully answered without any ambiguity using the context.
- - missing_information_comment: the specific pieces of information missing to fully answer the question, for example: the context does not contain a specific immunisation schedule to answer the patient's question.
+ - missing_information_rationale: the rationale for low context sufficiency scores and what piece of information is missing information.
  - missing_information_keywords: the specific pieces of information in a key word format, such as "immunisation schedule".
-- answer: a concise answer exclusively based on the provided context. The lower the context sufficiency, the shorter should be the answer and the quicker you should just suggest to refer to a healthcare professional.
+ - answer: a concise answer exclusively based on the provided context. The lower the context sufficiency, the shorter should be the answer and the quicker you should just suggest to refer to a healthcare professional.
 """
     "<question>\n{query_str}\n"
     "</question>\n"
 )
 
+# TODO: Migrate fields specification from based prompt into Pydantic model fields
 class QueryEngineOutput(BaseModel):
     answer: str
     relevant_contexts: list[str]
@@ -85,7 +86,6 @@ class RagModel(weave.Model):
     chunk_size: int = 512
     chunk_overlap: int = 50
     prompt_template: str = QA_SHORTER_PROMPT
-    query_engine_output_cls: type[Optional[BaseModel]] = None
 
     @weave.op()
     def predict(self, query: str):
@@ -105,12 +105,60 @@ class RagModel(weave.Model):
             chunk_size=self.chunk_size,
             chunk_overlap=self.chunk_overlap,
             prompt_template=self.prompt_template,
-            query_engine_output_cls=self.query_engine_output_cls,
         )
         response = query_engine.query(query)
         return response
-    
 
+
+class RagModelStructuredOutput(weave.Model):
+    chat_llm: str
+    embedding_model: str = "text-embedding-3-small"
+    temperature: float = 0.1
+    similarity_top_k: int = 3
+    chunk_size: int = 512
+    chunk_overlap: int = 50
+    prompt_template: str = QA_STRUCTURED_PROMPT
+    # Messes up with Weave serialisation I think
+    #query_engine_output_cls: type[Optional[BaseModel]] = QueryEngineOutput
+
+    @weave.op()
+    def predict(self, query: str):
+        # TODO: https://weave-docs.wandb.ai/guides/tracking/feedback/#retrieve-the-call-uuid
+        intent = intent_classifier.classify_intent(query)
+        if intent == intent_classifier.MALICIOUS_LABEL:
+            return Response("I'm sorry, I can't answer that question.")
+ 
+        # Annoyingly, not finding yet the right pattern to initialize the query engine
+        # once in the ctor, so relying on the memoised call here.
+        query_engine = get_query_engine(
+            data_dir=DOCS_DIR,
+            chat_llm=self.chat_llm,
+            embedding_model=self.embedding_model,
+            temperature=self.temperature,
+            similarity_top_k=self.similarity_top_k,
+            chunk_size=self.chunk_size,
+            chunk_overlap=self.chunk_overlap,
+            prompt_template=self.prompt_template,
+            query_engine_output_cls=QueryEngineOutput,
+        )
+        structured_response = query_engine.query(query)
+        final_answer = structured_response.answer if structured_response.context_sufficiency > 2 else "I cannot answer that question based on my current clinical knowledge."
+
+        # Especially needed as weave.op seems to choke on PydanticResponse
+        response = Response(
+            response= final_answer,
+            source_nodes=structured_response.source_nodes,
+            metadata=dict(structured_response.metadata,
+                relevant_contexts=structured_response.relevant_contexts,
+                context_sufficiency=structured_response.context_sufficiency,
+                missing_information_rationale=structured_response.missing_information_rationale,
+                missing_information_keywords=structured_response.missing_information_keywords,
+            )
+        )
+        return response
+
+
+@functools.lru_cache(maxsize=10)
 def get_query_engine(
     data_dir: str,
     chat_llm: str,
@@ -137,6 +185,7 @@ def get_query_engine(
         similarity_top_k=similarity_top_k,
         llm=llm,
         text_qa_template=qa_template,
+        response_mode="compact",
     )
 
 def create_query_rag_llm_v2(chat_llm = "mistral-large-latest", embedding_model="text-embedding-3-small"):
@@ -172,8 +221,14 @@ if __name__ == "__main__":
         chat_llm="mistral-large-latest", 
         embedding_model="text-embedding-3-small"
     )
-    #prompt_template=QA_SHORTER_PROMPT,
-    #query_engine_output_cls=QueryEngineOutput)
+
+    # TODO:  ValueError: Expected at least one tool call, but got 0 tool calls. when using mistral-large-latest
+    model = RagModelStructuredOutput(
+        chat_llm="gpt-4o", 
+        embedding_model="text-embedding-3-small"
+    )
+
     query = """"I born my twins at 33wks as preterm they're 4month now and their weight is 3.5 and 3.3. I am worried that they are not gorwing enough, please what can I give them to gain weight?"""
+    query = """"What vaccines should my 6 monts old have received by now?"""
     response = model.predict(query)
     print(response)

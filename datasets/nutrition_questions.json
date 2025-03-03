@@ -1,0 +1,164 @@
+[
+    {
+      "query": "Please doctors in the house, I born my twins at 33wks as preterm they're 4 months now and their weight is 3.5 and 3.3. Please what can I give them to gain weight?",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 0
+      }
+    },
+    {
+      "query": "Please doctors in the house, I gave birth to my twins at 34 weeks as preterm. They are now 4 months old, and their weight is 3.7 and 3.5. Please what can I give them to gain weight?",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 0,
+        "variation": "normal",
+        "source_url": "https://chatgpt.com/share/e/67c4742c-0964-8006-a229-ff93ca566954"
+      }
+    },
+    {
+      "query": "Please doctors in the house, I gave birth to my twins at 33 weeks as preterm. They are now 5 months old, and their weight is still 3.5 and 3.3. I'm very worried about their weight gain. Please what should I do?",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 0,
+        "variation": "alarming"
+      }
+    },
+    {
+      "query": "My 10-month-old baby still refluxes from time to time. Do I need to worry? B.W. 3.9 [C.W. 10.5]",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 1
+      }
+    },
+    {
+      "query": "My 10-month-old baby still refluxes occasionally after feeding, especially when lying down. Do I need to worry? B.W. 3.9 [C.W. 10.7]",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 1,
+        "variation": "normal"
+      }
+    },
+    {
+      "query": "My 10-month-old baby vomits frequently after feeds and has been refusing food for the past few days. Do I need to be worried? B.W. 3.9 [C.W. 9.8]",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 1,
+        "variation": "alarming"
+      }
+    },
+    {
+      "query": "Good morning Docs, I fed my 7-month-old baby with swallow and ogbono soup mixed with vegetables. But I noticed in his poo, there are vegetables when I changed his diaper. Does it mean that the food didn't digest properly? BW 3.5kg CW 9kg",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 2
+      }
+    },
+    {
+      "query": "Good morning Docs, I fed my 7-month-old baby with mashed potatoes and vegetable soup. But I noticed undigested bits of vegetables in his poo. Does it mean that the food didn't digest properly? BW 3.5kg CW 9.2kg",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 2,
+        "variation": "normal"
+      }
+    },
+    {
+      "query": "Good morning Docs, I fed my 7-month-old baby with rice and fish soup, but I noticed a strong foul smell in his poo, and he has been vomiting since yesterday. Does this mean the food didn't digest properly? BW 3.5kg CW 8.5kg",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 2,
+        "variation": "alarming"
+      }
+    },
+    {
+      "query": "Good morning great paeds in the house. Please I want to know if feeding a baby of 7 months old, 4 times a day, 4-hour interval, which consists of pap, cereal, fruit puree, and homemade meal, breastfeeding inclusive, can be considered as overfeeding? Thanks BW 3kg 6-month W 6.9kg CW unknown",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 3
+      }
+    },
+    {
+      "query": "Good morning great paeds in the house. Please, I want to know if feeding a baby of 7 months old, 5 times a day at 3-hour intervals, which consists of pap, cereal, fruit puree, and homemade meal, breastfeeding inclusive, can be considered as overfeeding? BW 3kg 6-month W 7kg CW unknown",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 3,
+        "variation": "normal"
+      }
+    },
+    {
+      "query": "Good morning great paeds in the house. I feed my 7-month-old baby almost every hour, and he seems to vomit frequently. Could I be overfeeding him? BW 3kg 6-month W 7.5kg CW unknown",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 3,
+        "variation": "alarming"
+      }
+    },
+    {
+      "query": "Good evening Dr, Please can I give orange to a 6+ month-old baby that is having hard stool? Thank you.",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 4
+      }
+    },
+    {
+      "query": "Good evening Dr, can I give orange juice to my 6+ month-old baby who is having mild constipation?",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 4,
+        "variation": "normal"
+      }
+    },
+    {
+      "query": "Good evening Dr, can I give orange juice to my 6+ month-old baby who has not had a bowel movement for five days and is straining a lot?",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 4,
+        "variation": "alarming"
+      }
+    },
+    {
+      "query": "Hello pls doc I want to know when is the right time to start sitting baby with support B.w 3.0 [?]",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 5
+      }
+    },
+    {
+      "query": "Hello doc, I want to know when is the right time to start sitting a baby with support? My baby is 5 months old. B.W. 3.0",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 5,
+        "variation": "normal"
+      }
+    },
+    {
+      "query": "Hello doc, my baby is 7 months old but still cannot sit even with support. Is this normal? B.W. 3.0",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 5,
+        "variation": "alarming"
+      }
+    },
+    {
+      "query": "Hello ATP, my baby's weight at birth is 2.9KG and she weighs 3.75KG @6weeks. We are on EBF. PLS IS THE WEIGHT NEED TO BE WORRY ABOUT. THANKS",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 6
+      }
+    },
+    {
+      "query": "Hello ATP, my baby's weight at birth was 2.9KG, and now at 6 weeks, she weighs 4KG. We are on EBF. Is this weight gain okay?",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 6,
+        "variation": "normal"
+      }
+    },
+    {
+      "query": "Hello ATP, my baby's weight at birth was 2.9KG, and now at 6 weeks, she weighs only 3.3KG. We are on EBF. Should I be worried?",
+      "meta": {
+        "source": "Ask the paediatricians facebook group",
+        "index": 6,
+        "variation": "alarming"
+      }
+    }
+  ]
