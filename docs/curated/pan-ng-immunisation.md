@@ -1,10 +1,11 @@
 # IMMUNIZATION
 
+Source: https://pan-ng.org/immunisation/
+
 General Statement
 
 PAN recommends complete vaccination of every child born in Nigeria and those immigrating into Nigeria. The vaccine schedules are recommended by experts in PAN, in collaboration with others in UNICEF and the WHO.
 
-[See the vaccine schedules here>>](http://hewsite.pan-ng.org/wp-content/uploads/2020/08/Current-Immunisation-schedule-for-Nigeria.jpg)
 
 ## HISTORY OF VACCINES
 
@@ -66,6 +67,7 @@ Vaccine Safety
 Vaccines are safe and effective if used correctly. However, no vaccine is completely without risk and adverse events can occasionally result after an immunization. Adverse Event Following Immunization (AEFI) is any medical occurrence which followed immunization and which does not necessarily have a causal relationship with the usage of the vaccine. These events may be any unfavourable or unintended sign, abnormal laboratory finding, symptom or disease.  Such events may present as local reactions (redness, pain or swelling at the injection site), fever, irritability, convulsions, anaphylactic shock, adenopathy and encephalopathy.
 
 ## Adverse event following immunization AEFI
+
 **Most vaccines will cause no or minor, non-serious adverse events. Serious events are extremely rare and generally do not result in death or long-term disability. These events are often not as deadly as the complications caused by the disease the vaccine is meant to prevent**.
 
 ### Categorization

@@ -62,10 +62,17 @@
         }
       },
       {
-        "query": "My baby is 12 months old, but I don’t see a record of the Vitamin A second dose. Can she still get it?",
+        "query": "My baby is 12 months old, but I don't see a record of the Vitamin A second dose. Can she still get it?",
         "reference": "Vitamin A second dose is scheduled for 12 months. If missed, it should be given as soon as possible under healthcare provider guidance.",
         "metadata": {
             "source": "Nigeria Immunization Schedule", "synthesizer": "https://chatgpt.com/share/e/67b24a2e-4384-8006-85bb-f4dfa6560dfe"
+        }
+      },
+      {
+        "query": "I herd that imunization is just a way for big pharma to make money and that it dont really protect kids. Is there any real proof that its safe and actualy works?",
+        "reference": "Vaccines stimulate the immune system to create antibodies, helping the body respond faster and stronger if exposed to the real infection later. The practice of vaccination has existed for centuries, starting with smallpox inoculation, and helped eradicate deadly illnesses.",
+        "metadata": {
+            "source": "Nigeria Immunization Schedule", "synthesizer": "https://chatgpt.com/share/e/67bb550e-55c4-8006-8867-5b5729bf0d30"
         }
       }
 ]

@@ -1,4 +1,5 @@
 import functools
+from typing import Optional
 from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.embeddings.openai import OpenAIEmbedding
@@ -34,6 +35,46 @@ QA_SHORTER_PROMPT = (
     "</question>\n"
     )
 
+from pydantic import BaseModel
+
+QA_SHORTER_PROMPT = (
+    "<clinical_guidelines>\n"
+    "{context_str}\n"
+    "</clinical_guidelines>\n"
+    "You are a helpful AI nurse answering patient's health questions based on the guidelines provided above."
+    "Phrase your answer in a way that is easy to understand, exluding any jargon or clinical details unless specifically asked.\n"
+    "Respond immediately to the question without any introduction or greetings, and conclude with a reference to the source of the answer.\n"
+    "If the answer to the question cannot be clearly inferred from the guidelines, answer with 'I'm sorry, I can't answer that question based on my current clinical knowledge.'\n"
+    "<question>\n{query_str}\n"
+    "</question>\n"
+    )
+
+# https://chatgpt.com/share/e/67c475a8-fd08-8006-a36e-f1deea5f31ff
+QA_STRUCTURED_PROMPT = (
+    "<clinical_guidelines>\n"
+    "{context_str}\n"
+    "</clinical_guidelines>\n"
+    "You are a helpful AI nurse answering patient's health questions based on the guidelines provided above."
+    "Phrase your answer in a way that is easy to understand, exluding any jargon or clinical details unless specifically asked.\n"
+    "Respond immediately to the question without any introduction or greetings, and conclude with a reference to the source of the answer.\n"
+"""Format the output with the following fields:
+ - relevant_contexts: verbatim extract from the guidelines relevant to answer the question 
+ - context_sufficiency: a score ranging from 0 to 5 grading how complete is the provided context to answer the question, where 0 would be a question completly off topic from the context, 2 a question partially covered but missing crucial information to adress key parts of the question, 4 a question almost entirely covered except for secondary details and 5 a question fully answered without any ambiguity using the context.
+ - missing_information_comment: the specific pieces of information missing to fully answer the question, for example: the context does not contain a specific immunisation schedule to answer the patient's question.
+ - missing_information_keywords: the specific pieces of information in a key word format, such as "immunisation schedule".
+- answer: a concise answer exclusively based on the provided context. The lower the context sufficiency, the shorter should be the answer and the quicker you should just suggest to refer to a healthcare professional.
+"""
+    "<question>\n{query_str}\n"
+    "</question>\n"
+)
+
+class QueryEngineOutput(BaseModel):
+    answer: str
+    relevant_contexts: list[str]
+    context_sufficiency: int
+    missing_information_rationale: str
+    missing_information_keywords: list[str]
+
 DOCS_DIR = "./docs/curated"
 
 class RagModel(weave.Model):
@@ -44,6 +85,7 @@ class RagModel(weave.Model):
     chunk_size: int = 512
     chunk_overlap: int = 50
     prompt_template: str = QA_SHORTER_PROMPT
+    query_engine_output_cls: type[Optional[BaseModel]] = None
 
     @weave.op()
     def predict(self, query: str):
@@ -63,12 +105,12 @@ class RagModel(weave.Model):
             chunk_size=self.chunk_size,
             chunk_overlap=self.chunk_overlap,
             prompt_template=self.prompt_template,
+            query_engine_output_cls=self.query_engine_output_cls,
         )
         response = query_engine.query(query)
         return response
     
 
-@functools.lru_cache(maxsize=1)
 def get_query_engine(
     data_dir: str,
     chat_llm: str,
@@ -78,6 +120,7 @@ def get_query_engine(
     chunk_size: int,
     chunk_overlap: int,
     prompt_template: str,
+    query_engine_output_cls: Optional[BaseModel] = None
 ):
     documents = SimpleDirectoryReader(data_dir, required_exts=[".md"]).load_data()
     splitter = SentenceSplitter(
@@ -90,6 +133,7 @@ def get_query_engine(
     qa_template = PromptTemplate(prompt_template)
 
     return index.as_query_engine(
+        output_cls=query_engine_output_cls,
         similarity_top_k=similarity_top_k,
         llm=llm,
         text_qa_template=qa_template,
@@ -124,6 +168,12 @@ def query_rag_llm(query_str):
     return response
 
 if __name__ == "__main__":
-    query_rag_llm = create_query_rag_llm_v2()
-    response = query_rag_llm("My baby is 3 months old. Which immunisations should they have had by now?")
+    model = RagModel(
+        chat_llm="mistral-large-latest", 
+        embedding_model="text-embedding-3-small"
+    )
+    #prompt_template=QA_SHORTER_PROMPT,
+    #query_engine_output_cls=QueryEngineOutput)
+    query = """"I born my twins at 33wks as preterm they're 4month now and their weight is 3.5 and 3.3. I am worried that they are not gorwing enough, please what can I give them to gain weight?"""
+    response = model.predict(query)
     print(response)

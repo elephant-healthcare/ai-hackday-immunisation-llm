@@ -1,5 +1,3 @@
-[Skip to main content](https://www.nhs.uk/pregnancy/related-conditions/common-symptoms/swollen-ankles-feet-and-fingers/#maincontent)
-
 # Swollen ankles, feet and fingers in pregnancy
 
 It's normal to get some swelling in pregnancy, particularly in your legs, ankles, feet and fingers.
@@ -48,7 +46,4 @@ You can do foot exercises sitting or standing. They improve blood circulation, r
 
 Get more tips on [exercise in pregnancy](https://www.nhs.uk/pregnancy/keeping-well/exercise/).
 
-Page last reviewed: 19 April 2024
-
-
-Next review due: 19 April 2027
+Source: [https://www.nhs.uk/pregnancy/related-conditions/common-symptoms/swollen-ankles-feet-and-fingers/#maincontent]

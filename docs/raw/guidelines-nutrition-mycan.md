@@ -1626,7 +1626,7 @@ o Provide safe and clean water, sanitation, and hygiene
 o (WASH) and promote appropriate hygiene practices to reduce the risk of illnesses.
 ```
 
-# 2.3 MATERNAL NUTRITION
+## 2.3 MATERNAL NUTRITION
 
 ## 2.3.1 Introduction
 
@@ -1929,13 +1929,7 @@ preparation, eating well on a budget, hygiene, managing stress, as well as infor
 on assistance for mental health.
 ```
 
-# 03
-
-# MONITORING
-
-# AND
-
-# EVALUATION
+# 03 MONITORING AND EVALUATION
 
 
 ### 3.1 Introduction...........................................................................................................
