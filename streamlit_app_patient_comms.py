@@ -1,15 +1,25 @@
+import datetime
 import os
+from typing import List, Optional
 import uuid
 import streamlit as st
 
 from openai import OpenAI
 # Using langfuse's openai wrapper for full tracing
 from langfuse.openai import openai as langfuse_openai
-
-
-
 from langfuse.decorators import observe, langfuse_context
 from langfuse import Langfuse
+
+# Structured output with Pydantic and OpenAI
+# https://platform.openai.com/docs/guides/structured-outputs?api-mode=chat
+from pydantic import BaseModel
+ 
+class ConversationTurn(BaseModel):
+    guardian_next_chosen_due_date: Optional[datetime.date]
+    child_vaccines: List[str]
+    has_guardian_opted_out: bool
+    has_guardian_deviated_from_intended_use: bool
+    assistant_next_response: str
 
 # https://docs.streamlit.io/develop/tutorials/chat-and-llm-apps/build-conversational-apps
 
@@ -20,6 +30,7 @@ from langfuse import Langfuse
 langfuse = Langfuse()
 
 PROMPT = langfuse.get_prompt("patient-comms-prompt", label="latest")
+print("PROMPT", PROMPT)
 
 if 'session_id' not in st.session_state:
     st.session_state['session_id'] = str(uuid.uuid4())
@@ -29,26 +40,9 @@ if "generate_trace_ids" not in st.session_state:
 def to_chat_ml_messages(messages):
     return [{"role": m["role"], "content": m["content"]} for m in messages]
 
-def generate_around_langfuse_wrapper(messages, prompt=PROMPT, model="gpt-4o-mini"):
-    """
-    Wrapper around langfuse_openai.chat.completions.create
-    """
-    langfuse_trace_id = str(uuid.uuid4())
-    st.session_state["generate_trace_ids"].append(langfuse_trace_id)
-
-    completion = langfuse_openai.chat.completions.create(
-            model=model,
-            messages=[{"role": "system", "content": prompt}] + messages,
-            #stream=True, Seems problematic with langfuse tracing somehow
-            session_id=st.session_state['session_id'],
-            trace_id=langfuse_trace_id,
-        )
-    return completion.choices[0].message.content
-
 
 # https://langfuse.com/docs/sdk/python/decorators
-#Important: Make sure the as_type="generation" decorated function is called inside another @observe()-decorated function for it to have a top-level trace.
-#@observe(as_type="generation")
+# Important: Make sure the as_type="generation" decorated function is called inside another @observe()-decorated function for it to have a top-level trace.
 @observe
 def generate(messages, model="gpt-4o-mini"):
     session_id = st.session_state['session_id']
@@ -67,9 +61,8 @@ def generate(messages, model="gpt-4o-mini"):
     )
     return nested_generate(messages, model)
 
-# to link with prompt, see https://langfuse.com/docs/prompts/get-started
 @observe(as_type="generation")
-def nested_generate(messages, model="gpt-4o-mini"):
+def nested_generate(messages, model="gpt-4o-mini") -> ConversationTurn | None:
     session_id = st.session_state['session_id']
     trace_id = langfuse_context.get_current_trace_id()
     # Duplicated to ensure proper trace UI at both session/trace/observation levels
@@ -84,12 +77,22 @@ def nested_generate(messages, model="gpt-4o-mini"):
     
     print("Generating completion with session_id", session_id, "and trace_id", trace_id)
 
-    completion = client.chat.completions.create(
+    completion = client.beta.chat.completions.parse(
             model=model,
-            messages=[{"role": "system", "content": PROMPT.prompt}] + messages,
-            #stream=True,
+            messages=[{"role": "system", "content": PROMPT.prompt + f"\n Today's date is {datetime.datetime.now().strftime('%Y-%m-%d')}"}] + messages,
+            response_format=ConversationTurn,
         )
-    return completion.choices[0].message.content
+    
+    parsed_response = completion.choices[0].message.parsed
+    print("Parsed response:\n", parsed_response)
+    return parsed_response
+
+
+def display_structured_response(response: ConversationTurn):
+    container = st.container()
+    container.status = st.status("**Structured output**")
+    container.status.markdown(f"```json\n{response.model_dump_json(indent=2) if response else response}\n```")
+    container.status.update(state="complete")
 
 def render_feedback_buttons(call_idx):
     """Renders thumbs up/down and text feedback for the call.
@@ -128,7 +131,9 @@ if "openai_model" not in st.session_state:
 
 # Initialize chat history
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    st.session_state.messages = [
+        {"role": "assistant", "content": "Hi there, this is Elephant. We're doing a study with your local gvmt and want to ask about your child's vaccines. Reply YES to take part, or STOP to opt out."}
+    ]
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages:
@@ -150,8 +155,9 @@ if prompt := st.chat_input("Patient messsage"):
             model=st.session_state["openai_model"]
         )
         #response = st.write_stream(stream)
-        st.markdown(response)
-    st.session_state.messages.append({"role": "assistant", "content": response})
+        st.markdown(response.assistant_next_response)
+    st.session_state.messages.append({"role": "assistant", "content": response.assistant_next_response})
 
+    display_structured_response(response)
     # Unfortunately not firing when pressing buttons...
     #render_feedback_buttons(len(st.session_state["generate_trace_ids"]) - 1)
