@@ -114,9 +114,9 @@ if __name__ == "__main__":
     import json
     
     # Write enhanced JSONL with metadata - one JSON object per line
-    with open("datasets/ragas_entity_based_testset_20.jsonl", "w") as f:
+    with open("datasets/ragas_theme_based_nutrition_testset_20.jsonl", "w") as f:
         f.writelines(
-            sample_with_scenario_to_jsonl(sample, scenario) for sample, scenario in zip(samples, scenarios)]
+            sample_with_scenario_to_jsonl(sample, scenario) for sample, scenario in zip(samples, scenarios)
         )
 
 def sample_with_scenario_to_jsonl(sample, scenario):

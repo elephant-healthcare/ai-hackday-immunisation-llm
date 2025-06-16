@@ -33,6 +33,8 @@ transcribe_prompt = "The audio is a recording of a patient explaining their issu
 @weave.op()
 def transcribe_audio(audio_data):
     # Send audio to OpenAI Whisper
+    from openai import OpenAI
+
     transcription = OpenAI().audio.transcriptions.create(
         model="whisper-1",
         file=audio_data,

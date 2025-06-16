@@ -45,10 +45,12 @@ def render_feedback_buttons(call_idx):
 
     with col1:
         if st.button("👍", key=f"thumbs_up_{call_idx}"):
+            print("👍", call_idx)
             st.session_state.calls[call_idx].feedback.add_reaction("👍")
 
     with col2:
         if st.button("👎", key=f"thumbs_down_{call_idx}"):
+            print("👎", call_idx)
             st.session_state.calls[call_idx].feedback.add_reaction("👎")
 
 

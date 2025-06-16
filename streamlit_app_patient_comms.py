@@ -14,6 +14,8 @@ from langfuse import Langfuse
 # https://platform.openai.com/docs/guides/structured-outputs?api-mode=chat
 from pydantic import BaseModel
  
+DEFAULT_OPENAI_MODEL = "o4-mini"
+
 class ConversationTurn(BaseModel):
     guardian_next_chosen_due_date: Optional[datetime.date]
     child_vaccines: List[str]
@@ -44,7 +46,7 @@ def to_chat_ml_messages(messages):
 # https://langfuse.com/docs/sdk/python/decorators
 # Important: Make sure the as_type="generation" decorated function is called inside another @observe()-decorated function for it to have a top-level trace.
 @observe
-def generate(messages, model="gpt-4o-mini"):
+def generate(messages, model):
     session_id = st.session_state['session_id']
     trace_id = langfuse_context.get_current_trace_id()
     # Only once though
@@ -62,7 +64,7 @@ def generate(messages, model="gpt-4o-mini"):
     return nested_generate(messages, model)
 
 @observe(as_type="generation")
-def nested_generate(messages, model="gpt-4o-mini") -> ConversationTurn | None:
+def nested_generate(messages, model) -> ConversationTurn | None:
     session_id = st.session_state['session_id']
     trace_id = langfuse_context.get_current_trace_id()
     # Duplicated to ensure proper trace UI at both session/trace/observation levels
@@ -127,7 +129,7 @@ st.title("Immunisation Communication Agent")
 
 client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-4o-mini"
+    st.session_state["openai_model"] = os.environ.get("OPENAI_MODEL", DEFAULT_OPENAI_MODEL)
 
 # Initialize chat history
 if "messages" not in st.session_state:

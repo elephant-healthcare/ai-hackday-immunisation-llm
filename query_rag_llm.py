@@ -3,6 +3,8 @@ from typing import Optional
 from llama_index.core import SimpleDirectoryReader, VectorStoreIndex
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.embeddings.openai import OpenAIEmbedding
+# pip install llama-index-embeddings-mistralai
+from llama_index.embeddings.mistralai import MistralAIEmbedding
 from llama_index.llms.openai import OpenAI
 from llama_index.llms.mistralai import MistralAI
 from llama_index.core.prompts import PromptTemplate
@@ -58,11 +60,10 @@ QA_STRUCTURED_PROMPT = (
     "Phrase your answer in a way that is easy to understand, exluding any jargon or clinical details unless specifically asked.\n"
     "Respond immediately to the question without any introduction or greetings, and conclude with a reference to the source of the answer.\n"
 """Format the output with the following fields:
- - relevant_contexts: verbatim extract from the guidelines relevant to answer the question 
+ - answer: a concise answer exclusively based on the provided context. The lower the context sufficiency, the shorter should be the answer and the quicker you should just suggest to refer to a healthcare professional.
  - context_sufficiency: a score ranging from 0 to 5 grading how complete is the provided context to answer the question, where 0 would be a question completly off topic from the context, 2 a question partially covered but missing crucial information to adress key parts of the question, 4 a question almost entirely covered except for secondary details and 5 a question fully answered without any ambiguity using the context.
  - missing_information_rationale: the rationale for low context sufficiency scores and what piece of information is missing information.
  - missing_information_keywords: the specific pieces of information in a key word format, such as "immunisation schedule".
- - answer: a concise answer exclusively based on the provided context. The lower the context sufficiency, the shorter should be the answer and the quicker you should just suggest to refer to a healthcare professional.
 """
     "<question>\n{query_str}\n"
     "</question>\n"
@@ -71,7 +72,6 @@ QA_STRUCTURED_PROMPT = (
 # TODO: Migrate fields specification from based prompt into Pydantic model fields
 class QueryEngineOutput(BaseModel):
     answer: str
-    relevant_contexts: list[str]
     context_sufficiency: int
     missing_information_rationale: str
     missing_information_keywords: list[str]
@@ -80,7 +80,7 @@ DOCS_DIR = "./docs/curated"
 
 class RagModel(weave.Model):
     chat_llm: str
-    embedding_model: str = "text-embedding-3-small"
+    embedding_model: str = "mistral-embed"
     temperature: float = 0.1
     similarity_top_k: int = 3
     chunk_size: int = 512
@@ -90,7 +90,7 @@ class RagModel(weave.Model):
     @weave.op()
     def predict(self, query: str):
         # TODO: https://weave-docs.wandb.ai/guides/tracking/feedback/#retrieve-the-call-uuid
-        intent = intent_classifier.classify_intent(query)
+        intent = intent_classifier.classify_intent(query, model=self.chat_llm)
         if intent == intent_classifier.MALICIOUS_LABEL:
             return Response("I'm sorry, I can't answer that question. This doesn't replace a human nurse.")
  
@@ -124,7 +124,7 @@ class RagModelStructuredOutput(weave.Model):
     @weave.op()
     def predict(self, query: str):
         # TODO: https://weave-docs.wandb.ai/guides/tracking/feedback/#retrieve-the-call-uuid
-        intent = intent_classifier.classify_intent(query)
+        intent = intent_classifier.classify_intent(query, model=self.chat_llm)
         if intent == intent_classifier.MALICIOUS_LABEL:
             return Response("I'm sorry, I can't answer that question.")
  
@@ -176,7 +176,8 @@ def get_query_engine(
         chunk_overlap=chunk_overlap,
     )
     nodes = splitter.get_nodes_from_documents(documents)
-    index = VectorStoreIndex(nodes, embed_model=OpenAIEmbedding(model=embedding_model))
+    embed_model = MistralAIEmbedding(model_name=embedding_model) if "mistral" in embedding_model else OpenAIEmbedding(model=embedding_model)
+    index = VectorStoreIndex(nodes, embed_model=embed_model)
     llm = MistralAI(model=chat_llm, temperature=temperature) if "mistral" in chat_llm else OpenAI(temperature=temperature, model=chat_llm)
     qa_template = PromptTemplate(prompt_template)
 
@@ -188,7 +189,7 @@ def get_query_engine(
         response_mode="compact",
     )
 
-def create_query_rag_llm_v2(chat_llm = "mistral-large-latest", embedding_model="text-embedding-3-small"):
+def create_query_rag_llm_v2(chat_llm = "mistral-large-latest", embedding_model="mistral-embed"):
     model = RagModel(name=chat_llm, chat_llm=chat_llm, embedding_model=embedding_model)
     return model.predict
 
@@ -219,14 +220,14 @@ def query_rag_llm(query_str):
 if __name__ == "__main__":
     model = RagModel(
         chat_llm="mistral-large-latest", 
-        embedding_model="text-embedding-3-small"
+        embedding_model="mistral-embed"
     )
 
     # TODO:  ValueError: Expected at least one tool call, but got 0 tool calls. when using mistral-large-latest
-    model = RagModelStructuredOutput(
-        chat_llm="gpt-4o", 
-        embedding_model="text-embedding-3-small"
-    )
+    #model = RagModelStructuredOutput(
+    #    chat_llm="gpt-4o", 
+    #    embedding_model="text-embedding-3-small"
+    #)
 
     query = """"I born my twins at 33wks as preterm they're 4month now and their weight is 3.5 and 3.3. I am worried that they are not gorwing enough, please what can I give them to gain weight?"""
     query = """"What vaccines should my 6 monts old have received by now?"""
