@@ -32,7 +32,7 @@ class ConversationTurn(BaseModel):
 langfuse = Langfuse()
 
 PROMPT = langfuse.get_prompt("patient-comms-prompt", label="latest")
-print("PROMPT", PROMPT)
+print("PROMPT", PROMPT.name,PROMPT.version, PROMPT.labels, PROMPT.commit_message)
 
 if 'session_id' not in st.session_state:
     st.session_state['session_id'] = str(uuid.uuid4())
@@ -134,7 +134,7 @@ if "openai_model" not in st.session_state:
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "assistant", "content": "Hi there, this is Elephant. We're doing a study with your local gvmt and want to ask about your child's vaccines. Reply YES to take part, or STOP to opt out."}
+        {"role": "assistant", "content": "Hi there, this is Elephant. We're doing a study with your local government and want to ask about your child's vaccines. Reply YES to take part, or STOP to opt out."}
     ]
 
 # Display chat messages from history on app rerun
