@@ -14,7 +14,7 @@ from langfuse import Langfuse
 # https://platform.openai.com/docs/guides/structured-outputs?api-mode=chat
 from pydantic import BaseModel
  
-DEFAULT_OPENAI_MODEL = "o4-mini"
+DEFAULT_OPENAI_MODEL = "gpt-4o"
 
 class ConversationTurn(BaseModel):
     guardian_next_chosen_due_date: Optional[datetime.date]
@@ -161,5 +161,9 @@ if prompt := st.chat_input("Patient messsage"):
     st.session_state.messages.append({"role": "assistant", "content": response.assistant_next_response})
 
     display_structured_response(response)
-    # Unfortunately not firing when pressing buttons...
-    #render_feedback_buttons(len(st.session_state["generate_trace_ids"]) - 1)
+    # store the index so it can be reused later
+    st.session_state["last_call_idx"] = len(st.session_state["generate_trace_ids"]) - 1
+
+# --- after the chat_input block (executed every run) ---
+if "last_call_idx" in st.session_state:
+    render_feedback_buttons(st.session_state["last_call_idx"])
